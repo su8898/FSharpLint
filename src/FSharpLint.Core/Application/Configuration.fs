@@ -245,7 +245,7 @@ type NamesConfig =
       activePatternNames:RuleConfig<NamingConfig> option
       publicValuesNames:RuleConfig<NamingConfig> option
       privateValuesNames:RuleConfig<NamingConfig> option
-      internalValuesNames:RuleConfig<NamingConfig> option}
+      internalValuesNames:RuleConfig<NamingConfig> option }
 with
     member this.Flatten() =
         [|

@@ -28,15 +28,15 @@ module Program
     member this.InternalTupleIsPascalCase() =
         this.Parse """
 module Program
-  let private Cat, private dog = 1, 0"""
+  let internal Cat, internal dog = 1, 0"""
 
         Assert.IsTrue(this.ErrorExistsAt(3, 14))
 
     [<Test>]
-    member this.PrivateFunctionNameIsPascalCase() =
+    member this.InternalFunctionNameIsPascalCase() =
         this.Parse """
 module Program
-  let private Main () = ()"""
+  let internal Main () = ()"""
 
         Assert.IsTrue(this.ErrorExistsAt(3, 14))
 
