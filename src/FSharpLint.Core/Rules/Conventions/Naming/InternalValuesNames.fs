@@ -1,4 +1,4 @@
-module FSharpLint.Rules.NonPublicValuesNames
+module FSharpLint.Rules.InternalValuesNames
 
 open FSharp.Compiler.Syntax
 open FSharpLint.Framework.Ast
@@ -51,8 +51,8 @@ let private getIdentifiers (args:AstNodeRuleParams) =
     | _ -> Array.empty
 
 let rule config =
-    { Name = "NonPublicValuesNames"
-      Identifier = Identifiers.NonPublicValuesNames
+    { Name = "PrivateValuesNames"
+      Identifier = Identifiers.PrivateValuesNames
       RuleConfig = { NamingRuleConfig.Config = config; GetIdentifiersToCheck = getIdentifiers } }
     |> toAstNodeRule
     |> AstNodeRule

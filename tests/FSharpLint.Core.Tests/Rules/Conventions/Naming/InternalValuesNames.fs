@@ -1,4 +1,4 @@
-module FSharpLint.Core.Tests.Rules.Conventions.NonPublicValuesNames
+module FSharpLint.Core.Tests.Rules.Conventions.InternalValuesNames
 
 open NUnit.Framework
 open FSharpLint.Framework.Rules
@@ -10,8 +10,8 @@ let config =
       Prefix = None
       Suffix = None }
 [<TestFixture>]
-type TestConventionsNonPublicValuesNames() =
-    inherit TestAstNodeRuleBase.TestAstNodeRuleBase(NonPublicValuesNames.rule config)
+type TestConventionsInternalValuesNames() =
+    inherit TestAstNodeRuleBase.TestAstNodeRuleBase(InternalValuesNames.rule config)
 
     /// A tuple inside a binding should be treated as private.
     [<Test>]
@@ -25,7 +25,7 @@ module Program
         Assert.IsTrue(this.ErrorExistsAt(5, 9))
 
     [<Test>]
-    member this.PrivateTupleIsPascalCase() =
+    member this.InternalTupleIsPascalCase() =
         this.Parse """
 module Program
   let private Cat, private dog = 1, 0"""
