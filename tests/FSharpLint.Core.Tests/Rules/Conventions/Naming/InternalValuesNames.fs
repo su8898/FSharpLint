@@ -28,9 +28,9 @@ module Program
     member this.InternalTupleIsPascalCase() =
         this.Parse """
 module Program
-  let internal Cat, internal dog = 1, 0"""
+  let internal Cat, internal Dog = 1, 0"""
 
-        Assert.IsTrue(this.ErrorExistsAt(3, 14))
+        Assert.IsTrue(this.ErrorExistsAt(3, 15))
 
     [<Test>]
     member this.InternalFunctionNameIsPascalCase() =
@@ -102,7 +102,7 @@ module program
     ()"""
 
         Assert.IsTrue(this.ErrorExistsAt(4, 8))
-
+        
     [<Test>]
     member this.FunctionNameNestedInBindingIsCamelCase() =
         this.Parse """

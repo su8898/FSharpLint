@@ -6,7 +6,7 @@ open FSharpLint.Framework.AstInfo
 open FSharpLint.Framework.Rules
 open FSharpLint.Rules.Helper.Naming
 
-let private getValueOrFunctionIdents typeChecker isPublic pattern =
+let private getValueOrFunctionIdents typeChecker isInternal pattern =
     let checkNotUnionCase ident = fun () -> 
         typeChecker
         |> Option.map (fun checker -> isNotUnionCase checker ident)
@@ -20,7 +20,7 @@ let private getValueOrFunctionIdents typeChecker isPublic pattern =
         match List.tryLast longIdent.Lid with
         | Some ident when not (isActivePattern ident) && singleIdentifier ->
             let checkNotUnionCase = checkNotUnionCase ident
-            if not isPublic then
+            if not isInternal then
                 (ident, ident.idText, Some checkNotUnionCase)
                 |> Array.singleton
             else
@@ -36,8 +36,8 @@ let private getIdentifiers (args:AstNodeRuleParams) =
         if not (isLiteral attributes) then
             match identifierTypeFromValData valData with
             | Value | Function ->
-                let isPublic = isPublic args.SyntaxArray args.NodeIndex
-                getPatternIdents isPublic (getValueOrFunctionIdents args.CheckInfo) true pattern
+                let isInternal = isInternal args.SyntaxArray args.NodeIndex
+                getPatternIdents isInternal (getValueOrFunctionIdents args.CheckInfo) true pattern
             | _ -> Array.empty
         else
             Array.empty
@@ -51,8 +51,8 @@ let private getIdentifiers (args:AstNodeRuleParams) =
     | _ -> Array.empty
 
 let rule config =
-    { Name = "PrivateValuesNames"
-      Identifier = Identifiers.PrivateValuesNames
+    { Name = "InternalValuesNames"
+      Identifier = Identifiers.InternalValuesNames
       RuleConfig = { NamingRuleConfig.Config = config; GetIdentifiersToCheck = getIdentifiers } }
     |> toAstNodeRule
     |> AstNodeRule
