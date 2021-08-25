@@ -30,36 +30,6 @@ module Program
         Assert.IsTrue(this.ErrorExistsAt(3, 15))
 
     [<Test>]
-    member this.VariablePatternMatchIsCamelCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | dog -> ()"""
-
-        this.AssertNoWarnings()
-
-    [<Test>]
-    member this.PatternMatchAsIsPascalCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | _ as Dog -> ()"""
-
-        Assert.IsTrue(this.ErrorExistsAt(5, 11))
-
-    [<Test>]
-    member this.PatternMatchAsIsCamelCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | _ as dog -> ()"""
-
-        this.AssertNoWarnings()
-
-    [<Test>]
     member this.FunctionNameNestedInBindingIsPascalCase() =
         this.Parse """
 module program
@@ -68,58 +38,13 @@ module program
     ()"""
 
         Assert.IsTrue(this.ErrorExistsAt(4, 8))
-        
-    [<Test>]
-    member this.FunctionNameNestedInBindingIsCamelCase() =
-        this.Parse """
-module Program
-  let main () =
-    let bain () = ()
-    ()"""
-
-        this.AssertNoWarnings()
-    [<Test>]
-    member this.CamelCaseLetBindingInType() =
-        this.Parse """
-module Program
-
-type Dog() =
-    let cat() = ()
-
-    member this.Goat() = ()"""
-
-        this.AssertNoWarnings()
-
-    [<Test>]
-    member this.PascalCaseLetBindingInType() =
-        this.Parse """
-module program
-
-type Dog() =
-    let Cat() = ()
-
-    member this.Goat() = ()"""
-
-        Assert.IsTrue(this.ErrorExistsAt(5, 8))
-
-    [<Test>]
-    member this.PascalCaseLetBindingInMethod() =
-        this.Parse """
-module Program
-
-type Cat() =
-  member this.ContainsBinding() =
-    let Goat = 0
-    ()"""
-
-        Assert.IsTrue(this.ErrorExistsAt(6, 8))
-
+ 
     [<Test>]
     member this.LiteralPatternMatchExpectNoErrors() =
         this.Parse """
 module Program
   [<Literal>]
-  let Dog = true
+  let internal Dog = true
 
   let main =
     match true with
@@ -133,7 +58,7 @@ module Program
         this.Parse """
 module Program
 
-let foo () =
+let internal foo () =
     let żcieżka = 0
     ()
         """
@@ -162,7 +87,7 @@ let internal foo x = 0
         this.Parse("""
 module Program
 
-type SingleCaseDU = SingleCaseDU of int
+type internal SingleCaseDU = SingleCaseDU of int
 
 let (SingleCaseDU MyInt) = (SingleCaseDU 5)""")
 
