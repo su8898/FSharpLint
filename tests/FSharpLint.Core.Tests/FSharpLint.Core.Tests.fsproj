@@ -33,6 +33,8 @@
     <Compile Include="Rules\Conventions\FunctionReimplementation.fs" />
     <Compile Include="Rules\Conventions\SourceLength.fs" />
     <Compile Include="Rules\Conventions\NoPartialFunctions.fs" />
+    <Compile Include="Rules\Conventions\Naming\InternalValuesNames.fs" />
+    <Compile Include="Rules\Conventions\Naming\PrivateValuesNames.fs" />
     <Compile Include="Rules\Conventions\Naming\NamingHelpers.fs" />
     <Compile Include="Rules\Conventions\Naming\InterfaceNames.fs" />
     <Compile Include="Rules\Conventions\Naming\ExceptionNames.fs" />
@@ -48,7 +50,6 @@
     <Compile Include="Rules\Conventions\Naming\MeasureTypeNames.fs" />
     <Compile Include="Rules\Conventions\Naming\ActivePatternNames.fs" />
     <Compile Include="Rules\Conventions\Naming\PublicValuesNames.fs" />
-    <Compile Include="Rules\Conventions\Naming\NonPublicValuesNames.fs" />
     <Compile Include="Rules\Typography\Indentation.fs" />
     <Compile Include="Rules\Typography\MaxCharactersOnLine.fs" />
     <Compile Include="Rules\Typography\NoTabCharacters.fs" />

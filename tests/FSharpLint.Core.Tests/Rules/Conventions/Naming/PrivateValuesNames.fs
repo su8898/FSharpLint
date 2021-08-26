@@ -1,4 +1,4 @@
-module FSharpLint.Core.Tests.Rules.Conventions.NonPublicValuesNames
+module FSharpLint.Core.Tests.Rules.Conventions.PrivateValuesNames
 
 open NUnit.Framework
 open FSharpLint.Framework.Rules
@@ -10,8 +10,8 @@ let config =
       Prefix = None
       Suffix = None }
 [<TestFixture>]
-type TestConventionsNonPublicValuesNames() =
-    inherit TestAstNodeRuleBase.TestAstNodeRuleBase(NonPublicValuesNames.rule config)
+type TestConventionsPrivateValuesNames() =
+    inherit TestAstNodeRuleBase.TestAstNodeRuleBase(PrivateValuesNames.rule config)
 
     /// A tuple inside a binding should be treated as private.
     [<Test>]
