@@ -92,4 +92,5 @@ type internal SingleCaseDU = SingleCaseDU of int
 let (SingleCaseDU MyInt) = (SingleCaseDU 5)""")
 
         Assert.IsTrue(this.ErrorsExist)
+        Assert.IsTrue(this.ErrorExistsAt(6,18))
 

@@ -286,3 +286,18 @@ let result = extractInt singleCaseDU""")
 
         Assert.IsTrue(this.ErrorsExist)
 
+    [<Test>]
+    member this.PublicVariableIsNotReported() =
+        this.Parse """
+module Program
+ let Cat = 1"""
+
+        this.AssertNoWarnings()
+
+    [<Test>]
+    member this.InternalVariableIsNotReported() =
+        this.Parse """
+module Program
+ let internal Cat = 1"""
+
+        this.AssertNoWarnings()
