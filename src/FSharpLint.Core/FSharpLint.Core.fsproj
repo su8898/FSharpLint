@@ -85,6 +85,7 @@
     <Compile Include="Rules\Conventions\Naming\ActivePatternNames.fs" />
     <Compile Include="Rules\Conventions\Naming\PublicValuesNames.fs" />
     <Compile Include="Rules\Conventions\Naming\NonPublicValuesNames.fs" />
+    <Compile Include="Rules\Conventions\Naming\PrivateValuesNames.fs" />
     <Compile Include="Rules\Conventions\NumberOfItems\NumberOfItemsHelper.fs" />
     <Compile Include="Rules\Conventions\NumberOfItems\MaxNumberOfItemsInTuple.fs" />
     <Compile Include="Rules\Conventions\NumberOfItems\MaxNumberOfFunctionParameters.fs" />
