@@ -25,20 +25,20 @@ module Program
         Assert.IsTrue(this.ErrorExistsAt(5, 9))
 
     [<Test>]
-    member this.PrivateTupleIsPascalCase() =
+    member this.InternalTupleIsPascalCase() =
         this.Parse """
 module Program
-  let private Cat, private dog = 1, 0"""
+  let internal Cat, internal dog = 1, 0"""
 
-        Assert.IsTrue(this.ErrorExistsAt(3, 14))
+        Assert.IsTrue(this.ErrorExistsAt(3, 15))
 
     [<Test>]
-    member this.PrivateFunctionNameIsPascalCase() =
+    member this.InternalFunctionNameIsPascalCase() =
         this.Parse """
 module Program
-  let private Main () = ()"""
+  let internal Main () = ()"""
 
-        Assert.IsTrue(this.ErrorExistsAt(3, 14))
+        Assert.IsTrue(this.ErrorExistsAt(3, 15))
 
     /// Regression test for https://github.com/fsprojects/FSharpLint/issues/103
     [<Test>]
@@ -53,51 +53,10 @@ module Program
         this.AssertNoWarnings()
 
     [<Test>]
-    member this.UnderscoreInMatchPatternIdent() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | d_og -> ()
-    | _ -> ()"""
-
-        Assert.IsTrue(this.ErrorExistsOnLine(5))
-
-    [<Test>]
-    member this.VariablePatternMatchIsCamelCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | dog -> ()"""
-
-        this.AssertNoWarnings()
-
-    [<Test>]
-    member this.PatternMatchAsIsPascalCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | _ as Dog -> ()"""
-
-        Assert.IsTrue(this.ErrorExistsAt(5, 11))
-
-    [<Test>]
-    member this.PatternMatchAsIsCamelCase() =
-        this.Parse """
-module Program
-  let main =
-    match true with
-    | _ as dog -> ()"""
-
-        this.AssertNoWarnings()
-
-    [<Test>]
     member this.FunctionNameNestedInBindingIsPascalCase() =
         this.Parse """
 module program
-  let main () =
+  let internal main () =
     let Main () = ()
     ()"""
 
@@ -107,17 +66,18 @@ module program
     member this.FunctionNameNestedInBindingIsCamelCase() =
         this.Parse """
 module Program
-  let main () =
-    let bain () = ()
+  let internal main () =
+    let  bain () = ()
     ()"""
 
         this.AssertNoWarnings()
+
     [<Test>]
     member this.CamelCaseLetBindingInType() =
         this.Parse """
 module Program
 
-type Dog() =
+type internal Dog() =
     let cat() = ()
 
     member this.Goat() = ()"""
@@ -129,7 +89,7 @@ type Dog() =
         this.Parse """
 module program
 
-type Dog() =
+type internal Dog() =
     let Cat() = ()
 
     member this.Goat() = ()"""
@@ -141,7 +101,7 @@ type Dog() =
         this.Parse """
 module Program
 
-type Cat() =
+type internal Cat() =
   member this.ContainsBinding() =
     let Goat = 0
     ()"""
@@ -165,7 +125,7 @@ type Cat() =
         this.Parse """
 module Program
   [<Literal>]
-  let Dog = true
+  let internal Dog = true
 
   let main =
     match true with

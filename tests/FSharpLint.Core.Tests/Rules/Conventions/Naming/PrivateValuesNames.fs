@@ -317,3 +317,11 @@ module Program
   let public Cat = 1"""
 
         this.AssertNoWarnings()
+
+    [<Test>]
+    member this.InternalVariableIsNotRecorded() =
+        this.Parse """
+module Program
+  let internal Cat = 1"""
+
+        this.AssertNoWarnings()
