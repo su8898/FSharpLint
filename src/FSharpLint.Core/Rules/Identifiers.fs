@@ -72,3 +72,4 @@ let NoTabCharacters = identifier 64
 let Hints = identifier 65
 let NoPartialFunctions = identifier 66
 let PrivateValuesNames = identifier 67
+let InternalValuesNames = identifier 68
