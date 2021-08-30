@@ -227,6 +227,104 @@ let isPublic (syntaxArray:AbstractSyntaxArray.Node []) i =
 
     isPublic true false i
 
+let isPrivate (syntaxArray:AbstractSyntaxArray.Node []) i =
+    let isSynAccessPrivate = function
+        | Some(SynAccess.Private) -> true
+        | _ -> false
+
+    let rec isPrivate privateSoFar isPrivateWhenReachedBinding i =
+        if i = 0 then privateSoFar
+        else if privateSoFar then
+            let node = syntaxArray.[i]
+            match node.Actual with
+            | TypeSimpleRepresentation(SynTypeDefnSimpleRepr.Record(access, _, _))
+            | TypeSimpleRepresentation(SynTypeDefnSimpleRepr.Union(access, _, _))
+            | UnionCase(SynUnionCase(_, _, _, _, access, _))
+            | Field(SynField(_, _, _, _, _, _, access, _))
+            | ComponentInfo(SynComponentInfo(_, _, _, _, _, _, access, _))
+            | ModuleOrNamespace (SynModuleOrNamespace.SynModuleOrNamespace(_, _, _, _, _, _, access, _))
+            | ExceptionRepresentation(SynExceptionDefnRepr.SynExceptionDefnRepr(_, _, _, _, access, _))
+            | Pattern(SynPat.Named(_, _, _, access, _))
+            | Pattern(SynPat.LongIdent(_, _, _, _, access, _)) ->
+                isPrivate (isSynAccessPrivate access) isPrivateWhenReachedBinding node.ParentIndex
+            | TypeSimpleRepresentation(_)
+            | Pattern(_) -> true
+            | MemberDefinition(_) ->
+                if isPrivateWhenReachedBinding then true
+                else isPrivate privateSoFar isPrivateWhenReachedBinding node.ParentIndex
+            | Binding(SynBinding(access, _, _, _, _, _, _, _, _, _, _, _)) ->
+                if isPrivateWhenReachedBinding then true
+                else isPrivate (isSynAccessPrivate access) true node.ParentIndex
+            | EnumCase(_)
+            | TypeRepresentation(_)
+            | Type(_)
+            | Match(_)
+            | ConstructorArguments(_)
+            | TypeParameter(_)
+            | InterfaceImplementation(_)
+            | ModuleDeclaration(_)
+            | Identifier(_)
+            | SimplePattern(_)
+            | File(_)
+            | LambdaArg(_)
+            | SimplePatterns(_) -> isPrivate privateSoFar isPrivateWhenReachedBinding node.ParentIndex
+            | TypeDefinition(_)
+            | Else(_)
+            | LambdaBody(_)
+            | Expression(_) -> isPrivate privateSoFar true node.ParentIndex
+        else false
+
+    isPrivate true false i
+
+let isInternal (syntaxArray:AbstractSyntaxArray.Node []) i =
+    let isSynAccessInternal = function
+        | Some(SynAccess.Private) -> true
+        | _ -> false
+
+    let rec isInternal internalSoFar isPrivateWhenReachedBinding i =
+        if i = 0 then internalSoFar
+        else if internalSoFar then
+            let node = syntaxArray.[i]
+            match node.Actual with
+            | TypeSimpleRepresentation(SynTypeDefnSimpleRepr.Record(access, _, _))
+            | TypeSimpleRepresentation(SynTypeDefnSimpleRepr.Union(access, _, _))
+            | UnionCase(SynUnionCase(_, _, _, _, access, _))
+            | Field(SynField(_, _, _, _, _, _, access, _))
+            | ComponentInfo(SynComponentInfo(_, _, _, _, _, _, access, _))
+            | ModuleOrNamespace (SynModuleOrNamespace.SynModuleOrNamespace(_, _, _, _, _, _, access, _))
+            | ExceptionRepresentation(SynExceptionDefnRepr.SynExceptionDefnRepr(_, _, _, _, access, _))
+            | Pattern(SynPat.Named(_, _, _, access, _))
+            | Pattern(SynPat.LongIdent(_, _, _, _, access, _)) ->
+                isInternal (isSynAccessInternal access) isPrivateWhenReachedBinding node.ParentIndex
+            | TypeSimpleRepresentation(_)
+            | Pattern(_) -> true
+            | MemberDefinition(_) ->
+                if isPrivateWhenReachedBinding then true
+                else isInternal internalSoFar isPrivateWhenReachedBinding node.ParentIndex
+            | Binding(SynBinding(access, _, _, _, _, _, _, _, _, _, _, _)) ->
+                if isPrivateWhenReachedBinding then true
+                else isInternal (isSynAccessInternal access) true node.ParentIndex
+            | EnumCase(_)
+            | TypeRepresentation(_)
+            | Type(_)
+            | Match(_)
+            | ConstructorArguments(_)
+            | TypeParameter(_)
+            | InterfaceImplementation(_)
+            | ModuleDeclaration(_)
+            | Identifier(_)
+            | SimplePattern(_)
+            | File(_)
+            | LambdaArg(_)
+            | SimplePatterns(_) -> isInternal internalSoFar isPrivateWhenReachedBinding node.ParentIndex
+            | TypeDefinition(_)
+            | Else(_)
+            | LambdaBody(_)
+            | Expression(_) -> isInternal internalSoFar true node.ParentIndex
+        else false
+
+    isInternal true false i
+
 /// Is an attribute with a given name?
 /// e.g. check for Literal attribute.
 let isAttribute name (attributes:SynAttributes) =

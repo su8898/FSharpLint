@@ -36,8 +36,8 @@ let private getIdentifiers (args:AstNodeRuleParams) =
         if not (isLiteral attributes) then
             match identifierTypeFromValData valData with
             | Value | Function ->
-                let isPublic = isPublic args.SyntaxArray args.NodeIndex
-                getPatternIdents isPublic (getValueOrFunctionIdents args.CheckInfo) true pattern
+                let isPrivate = isPrivate args.SyntaxArray args.NodeIndex
+                getPatternIdents isPrivate (getValueOrFunctionIdents args.CheckInfo) true pattern
             | _ -> Array.empty
         else
             Array.empty

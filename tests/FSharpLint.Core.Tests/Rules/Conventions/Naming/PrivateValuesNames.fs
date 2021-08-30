@@ -310,6 +310,7 @@ module Program
 
         this.AssertNoWarnings()
 
+
     [<Test>]
     member this.ExplicitPublicVariableIsNotRecorded() =
         this.Parse """
